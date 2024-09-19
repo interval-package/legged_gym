@@ -45,7 +45,7 @@ Paper: https://arxiv.org/abs/2109.11978
 
 ### Usage ###
 1. Train:  
-  ```python legged_gym/scripts/train.py --task=anymal_c_flat```
+  ```python legged_gym/scripts/train.py --task=anymal_c_flat --headless```
     -  To run on CPU add following arguments: `--sim_device=cpu`, `--rl_device=cpu` (sim on CPU and rl on GPU is possible).
     -  To run headless (no rendering) add `--headless`.
     - **Important**: To improve performance, once the training starts press `v` to stop the rendering. You can then enable it later to check the progress.
@@ -64,6 +64,31 @@ Paper: https://arxiv.org/abs/2109.11978
 ```python legged_gym/scripts/play.py --task=anymal_c_flat```
     - By default, the loaded policy is the last model of the last run of the experiment folder.
     - Other runs/model iteration can be selected by setting `load_run` and `checkpoint` in the train config.
+#### Headless run
+
+First, you'll need to install `Xvfb` to create a virtual display for rendering:
+
+```bash
+    sudo apt-get update
+    sudo apt-get install xvfb
+```
+
+Run your robot simulation program with Xvfb to create a virtual framebuffer for rendering:
+
+```bash
+    Xvfb :1 -screen 0 1024x768x24 &
+    export DISPLAY=:1
+```
+
+- `:1` specifies the virtual display.
+- `-screen 0 1024x768x24` sets the resolution and color depth (adjust it according to your needs).
+
+To end
+
+```bash
+    pkill Xvfb
+```
+
 
 ### Adding a new environment ###
 The base environment `legged_robot` implements a rough terrain locomotion task. The corresponding cfg does not specify a robot asset (URDF/ MJCF) and has no reward scales. 
